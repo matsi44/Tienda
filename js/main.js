@@ -1,120 +1,126 @@
-const btnCart = document.querySelector('.container-cart-icon');
-const containerCartProducts = document.querySelector('.container-cart-products');
+let productos = [];
 
-btnCart.addEventListener('click', () => {
-    containerCartProducts.classList.toggle('hidden-cart');
-})
-
-/*****************************/
-
-const cartInfo = document.querySelector('.cart-product');
-const rowProduct = document.querySelector('.row-product');
-
-// Lista de todos los contenedores de productos
-const productList = document.querySelector('.container-items');
-
-// Variable de arreglos de Productos
-let allProducts = []
-
-const valorTotal = document.querySelector('.total-pagar')
-
-const countProducts = document.querySelector('#contador-productos')
-
-
-productList.addEventListener('click', e => {
-
-    if (e.target.classList.contains('btn-add-cart')){
-        const product = e.target.parentElement;
-
-        const infoProduct = {
-            quantity: 1,
-            title: product.querySelector('h2').textContent,
-            price: product.querySelector('p').textContent,
-        };
-
-        const exists = allProducts.some(product => product.title === infoProduct.title);
-        
-        if (exists){
-            const products = allProducts.map(product => {
-                if (product.title === infoProduct.title) {
-                    product.quantity++;
-                    return product;
-                }else{
-                    return product;
-                };
-            });
-            allProducts = [...products];
-        } else{
-            allProducts = [...allProducts, infoProduct];
-        };
-
-
-        showHTML();
-    };
-
-    
-});
-
-//Elminar del carrito
-
-rowProduct.addEventListener('click', e => {
-    if (e.target.classList.contains('icon-close')) {
-        const product = e.target.parentElement;
-        const title = product.querySelector('p').textContent;
-
-        allProducts = allProducts.filter(
-            product => product.title !== title
-        );
-
-        console.log(allProducts);
-        showHTML();
-    };
-});
-
-
-// Función para mostrar en carrito HTML
-const showHTML = () => {
-
-
-    // Limpiar HTML
-    rowProduct.innerHTML = '';
-
-    let total = 0;
-    let totalOfProducts = 0;
-    
-    allProducts.forEach(product => {
-        const containerProduct = document.createElement('div');
-        containerProduct.classList.add('cart-product');
-
-        containerProduct.innerHTML = `
-        <div class="info-cart-product">
-            <span class="cantidad-producto-carrito">${product.quantity}</span>
-            <p class="titulo-producto-carrito">${product.title}</p>
-            <span class="precio-producto-carrito">${product.price}</span>
-        </div>
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="icon-close"
-        >
-            <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-            />
-        </svg>
-        `
-
-        rowProduct.append(containerProduct);
-
-        total = total + parseInt(product.quantity * product.price.slice(1));
-        totalOfProducts = totalOfProducts + product.quantity;
-
+fetch("./js/productos.json")
+    .then(response => response.json())
+    .then(data => {
+        productos = data;
+        cargarProductos(productos);
     });
 
-    valorTotal.innerText = `$${total}`;
-    countProducts.innerText = totalOfProducts;
+
+const contenedorProductos = document.querySelector("#contenedor-productos");
+const botonesCategorias = document.querySelectorAll(".boton-categoria");
+const tituloPrincipal = document.querySelector("#titulo-principal");
+let botonesAgregar = document.querySelectorAll(".producto-agregar");
+const numerito = document.querySelector("#numerito");
+
+
+function cargarProductos(productosElegidos) {
+
+    contenedorProductos.innerHTML = "";
+
+    productosElegidos.forEach(producto => {
+
+        const div = document.createElement("div");
+        div.classList.add("producto");
+        div.innerHTML = `
+        <img class="producto-imagen" src="${producto.imagen}" alt="${producto.titulo}">
+        <div class="producto-detalles">
+            <h3 class="producto-titulo">${producto.titulo}</h3>
+            <p class="producto-precio">${producto.precio}</p>
+            <button class="producto-agregar" id="${producto.id}">Agregar</button>
+        </div>
+    `;
+
+        contenedorProductos.append(div);
+    });
+
+    actializarBotonesAgregar();
 };
+
+
+botonesCategorias.forEach(boton => {
+    boton.addEventListener("click", (e) => {
+        
+        botonesCategorias.forEach(boton => boton.classList.remove("active"));
+        e.currentTarget.classList.add("active");
+
+
+        if (e.currentTarget.id != "todos") {
+            const productoCategoria = productos.find(producto => producto.categoria.id === e.currentTarget.id);
+            tituloPrincipal.innerText = productoCategoria.categoria.nombre;
+
+            const productosBoton = productos.filter(producto => producto.categoria.id === e.currentTarget.id);
+            cargarProductos(productosBoton);
+        } else {
+            tituloPrincipal.innerText = "Todos los productos";
+            cargarProductos(productos);
+        };
+
+    });
+});
+
+function actializarBotonesAgregar () {
+    botonesAgregar = document.querySelectorAll(".producto-agregar");
+
+    botonesAgregar.forEach(boton => {
+        boton.addEventListener("click", agregarAlCarrito)
+    });
+};
+
+let productosEnCarrito;
+
+let productosEnCarritoLS = localStorage.getItem("productos-en-carrito");
+
+
+if (productosEnCarritoLS) {
+    productosEnCarrito = JSON.parse(productosEnCarritoLS);
+    actualizarNumerito();
+}else {
+    productosEnCarrito = [];
+}
+
+
+function agregarAlCarrito(e) {
+
+    Toastify({
+        text: "Producto agregado",
+        duration: 3000,
+        close: true,
+        gravity: "top", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "linear-gradient(to right, #252525, #252525)",
+          borderRadius: "2rem",
+          textTransform: "uppercase",
+          fontSize: ".75rem"
+        },
+        offset: {
+            x: '1.5rem', // horizontal axis - can be a number or a string indicating unity. eg: '2em'
+            y: '1.5rem' // vertical axis - can be a number or a string indicating unity. eg: '2em'
+          },
+        onClick: function(){} // Callback after click
+      }).showToast();
+
+    const idBoton = e.currentTarget.id;
+    const productoAgregado = productos.find(producto => producto.id === idBoton);
+
+    if(productosEnCarrito.some(producto => producto.id === idBoton)) {
+        const index = productosEnCarrito.findIndex(producto => producto.id === idBoton);
+        productosEnCarrito[index].cantidad++;
+    } else {
+        productoAgregado.cantidad = 1;
+        productosEnCarrito.push(productoAgregado);
+    }
+
+    actualizarNumerito();
+
+    localStorage.setItem("productos-en-carrito", JSON.stringify(productosEnCarrito));
+}
+
+function actualizarNumerito() {
+    let nuevoNumerito = productosEnCarrito.reduce((acc, producto) => acc + producto.cantidad, 0);
+    numerito.innerText = nuevoNumerito;
+};
+

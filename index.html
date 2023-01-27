@@ -4,149 +4,55 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="./css/main.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+		<link rel="stylesheet" href="./css/main.css">
         <title>Bleu Perfumes</title>
     </head>
     <body>
-        <header>
-            <h1>
-                Bienvenidos a Bleu Perfumes!
-            </h1>
-            <div class="container-icon">
-				<div class="container-cart-icon">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke-width="1.5"
-						stroke="currentColor"
-						class="icon-cart"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-						/>
-					</svg>
-					<div class="count-products">
-						<span id="contador-productos">0</span>
-					</div>
+        <div class="wrapper">
+			<aside>
+				<header>
+					<h1>Bleu Perfumes</h1>
+				</header>
+				<nav>
+					<ul class="menu">
+						<li>
+							<button id="todos" class="boton-menu boton-categoria active"><i class="bi bi-globe"></i> Todos los productos</button>
+						</li>
+						<li>
+							<button id="chanel" class="boton-menu boton-categoria"><i class="bi bi-chevron-right"></i></i> Chanel</button>
+						</li>
+						<li>
+							<button id="creed" class="boton-menu boton-categoria"><i class="bi bi-chevron-right"></i></i> Creed</button>
+						</li>
+						<li>
+							<button id="dior" class="boton-menu boton-categoria"><i class="bi bi-chevron-right"></i></i> Dior</button>
+						</li>
+						<li>
+							<button id="prada" class="boton-menu boton-categoria"><i class="bi bi-chevron-right"></i></i> Prada</button>
+						</li>
+						<li>
+							<a class="boton-menu boton-carrito" href="./carrito.html">
+								<i class="bi bi-cart"></i> <span id="numerito" class="numerito">0</span>
+							</a>
+						</li>
+					</ul>
+				</nav>
+				<footer>
+					<p class="texto-footer">© 2023 Bleu Perfumes</p>
+				</footer>
+			</aside>
+			<main>
+				<h2 class="titulo-principal" id="titulo-principal">Todos los productos</h2>
+				<div id="contenedor-productos" class="contenedor-productos">
 				</div>
-
-				<div class="container-cart-products hidden-cart">
-					<div class="row-product">
-						<div class="cart-product">
-							<div class="info-cart-product">
-								<span class="cantidad-producto-carrito">1</span>
-								<p class="titulo-producto-carrito">Bleu de Chanel</p>
-								<span class="precio-producto-carrito">$100</span>
-							</div>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke-width="1.5"
-								stroke="currentColor"
-								class="icon-close"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									d="M6 18L18 6M6 6l12 12"
-								/>
-							</svg>
-						</div>
-					</div>
-                    <div class="cart-total">
-                        <h3>Total:</h3>
-                        <span class="total-pagar">$200</span>
-                    </div>
-				</div>
-			</div>
-		</header>
-		<div class="container-items">
-			<div class="item">
-				<figure>
-					<img
-						src="https://images.unsplash.com/photo-1523293182086-7651a899d37f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8UGVyZnVtZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"
-						alt="producto"
-					/>
-				</figure>
-				<div class="info-product">
-					<h2>Bleu de Chanel</h2>
-					<p class="price">$100</p>
-					<button class="btn-add-cart">Añadir al carrito</button>
-				</div>
-			</div>
-			<div class="item">
-				<figure>
-					<img
-						src="https://images.unsplash.com/photo-1541643600914-78b084683601?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8UGVyZnVtZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"
-						alt="producto"
-					/>
-				</figure>
-				<div class="info-product">
-					<h2>N5 Chanel</h2>
-					<p class="price">$90</p>
-					<button class="btn-add-cart">Añadir al carrito</button>
-				</div>
-			</div>
-			<div class="item">
-				<figure>
-					<img
-						src="https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fFBlcmZ1bWVzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
-						alt="producto"
-					/>
-				</figure>
-				<div class="info-product">
-					<h2>Coco Noir Chanel</h2>
-					<p class="price">$80</p>
-					<button class="btn-add-cart">Añadir al carrito</button>
-				</div>
-			</div>
-			<div class="item">
-				<figure>
-					<img
-						src="https://images.unsplash.com/photo-1617943422341-6ae140cc1c85?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzZ8fFBlcmZ1bWVzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
-						alt="producto"
-					/>
-				</figure>
-				<div class="info-product">
-					<h2>Miss Dior</h2>
-					<p class="price">$100</p>
-					<button class="btn-add-cart">Añadir al carrito</button>
-				</div>
-			</div>
-			<div class="item">
-				<figure>
-					<img
-						src="https://images.unsplash.com/photo-1610461888750-10bfc601b874?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fFBlcmZ1bWVzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
-						alt="producto"
-					/>
-				</figure>
-				<div class="info-product">
-					<h2>Prada Milano</h2>
-					<p class="price">$90</p>
-					<button class="btn-add-cart">Añadir al carrito</button>
-				</div>
-			</div>
-			<div class="item">
-				<figure>
-					<img
-						src="https://images.unsplash.com/photo-1624811742200-69166e7b7bcc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDd8fFBlcmZ1bWVzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
-						alt="producto"
-					/>
-				</figure>
-				<div class="info-product">
-					<h2>Creed Aventus</h2>
-					<p class="price">$200</p>
-					<button class="btn-add-cart">Añadir al carrito</button>
-				</div>
-			</div>
+			</main>
 		</div>
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
         <script src="./js/main.js"></script>
     </body>
 </html>
